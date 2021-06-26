@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class Level1CompletedNextLevel : MonoBehaviour { 
 
     public void PlayGame()
-{
+    {
     SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-}
+    }
 }
