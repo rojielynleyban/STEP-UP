@@ -170,7 +170,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   delayBeforeLoading: 5
-  sceneNameToLoad: 17 L2Q2
+  sceneNameToLoad: 15 L2Q1
 --- !u!1 &345650517
 GameObject:
   m_ObjectHideFlags: 0
@@ -686,7 +686,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.83500004, y: 0.9091819}
   m_AnchorMax: {x: 0.93660533, y: 0.9745455}
-  m_AnchoredPosition: {x: 0.18197632, y: 0.4129181}
+  m_AnchoredPosition: {x: 0.18197632, y: 0.41290283}
   m_SizeDelta: {x: -0.3639183, y: -0.8257904}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1505880181

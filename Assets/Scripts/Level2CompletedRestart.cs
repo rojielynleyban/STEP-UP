@@ -7,6 +7,6 @@ public class Level2CompletedRestart : MonoBehaviour {
 
     public void PlayGame()
     {
-        SceneManager.LoadScene(12);
+        SceneManager.LoadScene(sceneName: "16 2.2");
     }
 }

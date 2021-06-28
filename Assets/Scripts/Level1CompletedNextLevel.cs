@@ -7,6 +7,6 @@ public class Level1CompletedNextLevel : MonoBehaviour {
 
     public void PlayGame()
     {
-    SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    SceneManager.LoadScene("16 L2.2");
     }
 }
