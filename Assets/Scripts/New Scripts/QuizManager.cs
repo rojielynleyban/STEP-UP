@@ -6,65 +6,42 @@ using UnityEngine.SceneManagement;
 
 public class QuizManager : MonoBehaviour
 {
-    public List<QueAndAnsManager> queAndAns;
-    public GameObject[] choices;
-    public int currentQues;
+    [SerializeField] private QuizUI quizUI;
 
-    public Text QuestionText;
-    public Text ScoreText;
-    public Text NumTitle;
+    [SerializeField]
+    private List<Question> questions;
+    private Question currentQues;
 
     [SerializeField]
     private string NextScene;
 
-    public GameObject QuizPanel;
+    private int val;
 
-    int totalQues = 0;
+    public Text ScoreText;
+    public Text NumTitle;
+
     public int quesnum = 0;
     public int score;
 
-    private void Start()
+    void Start()
     {
-        totalQues = queAndAns.Count;
         NumTitle.text = "LEVEL " + quesnum;
-        GenerateQues();
+        GenerateQuestion();
     }
 
-    void LevelComplete()
+    // randomize questions
+    void GenerateQuestion()
     {
-        //new switch to next scene
-        SceneManager.LoadScene(sceneName: NextScene);
-
-        // old code
-        // QuizPanel.SetActive(false);
-        // BgPanel.SetActive(true);
-        // ScoreText.text = score + "/" + totalQues;
-    }
-
-    public void CorrectAns()
-    {
-        score += 1;
-        queAndAns.RemoveAt(currentQues);
-        GenerateQues();
-    }
-
-    public void WrongAns()
-    {
-        queAndAns.RemoveAt(currentQues);
-        GenerateQues();
-    }
-
-    void GenerateQues()
-    {
-        if (queAndAns.Count > 0)
+        if (questions.Count > 0)
         {
             quesnum += 1;
             NumTitle.text = "LEVEL " + quesnum;
 
-            currentQues = Random.Range(0, queAndAns.Count);
+            val = Random.Range(0, questions.Count);
             ScoreText.text = score.ToString();
-            QuestionText.text = queAndAns[currentQues].Question;
-            SetAnswer();
+            currentQues = questions[val];
+
+            quizUI.SetQuestion(currentQues);
         }
         else
         {
@@ -73,18 +50,51 @@ public class QuizManager : MonoBehaviour
         }
     }
 
-    void SetAnswer()
+    // check if correct answer
+    public bool Answer(string isAnswered)
     {
-        for (int i = 0; i < choices.Length; i++)
-        {
-            choices[i].GetComponent<AnswerManager>().isCorrectAns = false;
-            choices[i].transform.GetChild(0).GetComponent<Text>().text = queAndAns[currentQues].Answers[i];
+        bool correctAns = false;
 
-            if (queAndAns[currentQues].correctAns == (i + 1))
-            {
-                choices[i].GetComponent<AnswerManager>().isCorrectAns = true;
-            }
+        if (isAnswered == currentQues.correctAns)
+        {
+            correctAns = true;
+            score += 1;
+            questions.RemoveAt(val);
         }
+        else
+        {
+            questions.RemoveAt(val);
+        }
+
+        Invoke("GenerateQuestion", 0.5f);
+
+        return correctAns;
+    }
+
+    // switch to next scene
+    void LevelComplete()
+    {
+        SceneManager.LoadScene(sceneName: NextScene);
     }
 }
 
+[System.Serializable]
+
+// initializes question
+public class Question
+{
+    public string questionText;
+    public List<string> choices;
+    public string correctAns;
+    public QuestionType questionType;
+    public Sprite questionImg;
+}
+
+[System.Serializable]
+
+// additional; handle image type question at level 5
+public enum QuestionType
+{
+    TEXT,
+    IMAGE
+}
